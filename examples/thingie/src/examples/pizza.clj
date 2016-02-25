@@ -63,7 +63,9 @@
           :path-params [id :- Long]
           :return (s/maybe Pizza)
           :summary "Gets a pizza"
-          (ok (get-pizza id)))
+             (if-let [pizza (get-pizza id)]
+               (ok pizza)
+               (not-found {:message "Invalid ID provided"})))
         (POST "/" []
           :return Pizza
           :body [pizza (describe NewPizza "new pizza")]
